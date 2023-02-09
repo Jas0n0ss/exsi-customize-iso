@@ -6,11 +6,11 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'ESXi670-net55-r8168'
+        default: 'ESXi60-net-r8101'
       driver:
         description: 'Driver Name'
         required: true
-        default: 'net55-r8168'
+        default: 'net-r8101'
 
 jobs:
   Build:
@@ -22,15 +22,15 @@ jobs:
         shell: powershell
         run: |
           $client = new-object System.Net.WebClient
-          $client.DownloadFile('${{ secrets.DOWNLOAD_URL }}','ESXi670-201912001.zip')
+          $client.DownloadFile('${{ secrets.DOWNLOAD_URL }}','VMware-ESXi-6.0.0-2494585-depot.zip')
           ls
       - name: Download Script
         shell: powershell
         run: |
           $client = new-object System.Net.WebClient
-          $client.DownloadFile('https://github.com/VFrontDe/ESXi-Customizer-PS/archive/refs/tags/2.8.1.zip','ESXi-Customizer-PS.zip')
-          Expand-Archive -Path ESXi-Customizer-PS.zip -DestinationPath ./
-          cd ESXi-Customizer-PS-2.8.1
+          $client.DownloadFile('https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip','ESXi-Customizer-PS-2.9.0.zip')
+          Expand-Archive -Path ESXi-Customizer-PS-2.9.0.zip -DestinationPath ./
+          cd ESXi-ESXi-Customizer-PS-2.9.0
           $env:WORK_DIR=$PWD
           $env:WORK_DIR
           echo "WORK_DIR=$env:WORK_DIR" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -43,7 +43,7 @@ jobs:
         shell: powershell
         run: |
           cd $env:WORK_DIR\
-          .\ESXi-Customizer-PS.ps1 -izip ..\ESXi670-201912001.zip -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip ..\VMware-ESXi-6.0.0-2494585-depot.zip -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }} -outDir ..\
           cd ..
           ls
       - name: Create Release
