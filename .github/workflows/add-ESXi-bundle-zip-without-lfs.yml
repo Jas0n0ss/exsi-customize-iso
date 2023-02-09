@@ -16,7 +16,7 @@ jobs:
         shell: powershell
         run: |
           $client = new-object System.Net.WebClient
-          $client.DownloadFile('${{ secrets.EXTERNAL_DOWNLOAD_URL }}','${{ github.event.inputs.tag }}.zip')
+          $client.DownloadFile('${{ secrets.DOWNLOAD_URL }}','${{ github.event.inputs.tag }}.zip')
           ls
       - name: Create Release
         uses: softprops/action-gh-release@v1
