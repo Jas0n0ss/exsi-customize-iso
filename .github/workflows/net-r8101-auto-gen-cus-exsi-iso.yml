@@ -30,7 +30,7 @@ jobs:
           $client = new-object System.Net.WebClient
           $client.DownloadFile('https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip','ESXi-Customizer-PS.zip')
           Expand-Archive -Path ESXi-Customizer-PS.zip -DestinationPath ./
-          cd ESXi-ESXi-Customizer-PS
+          cd ESXi-Customizer-PS-2.9.0
           $env:WORK_DIR=$PWD
           $env:WORK_DIR
           echo "WORK_DIR=$env:WORK_DIR" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
