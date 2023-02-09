@@ -6,5 +6,7 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` and `DOW
 
 Base on:
 
-- [https://www.v-front.de/](https://www.v-front.de/)
+- [https://www.v-front.de](https://www.v-front.de/)
+- [currently_available_ESXi_packages](https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages)
 - [https://github.com/VFrontDe/ESXi-Customizer-PS](https://github.com/VFrontDe/ESXi-Customizer-PS)
+- [https://github.com/HalfCoke/custom-vmware-esxi](https://github.com/HalfCoke/custom-vmware-esxi)
