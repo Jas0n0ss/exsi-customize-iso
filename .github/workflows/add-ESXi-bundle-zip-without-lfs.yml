@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'ESXi670'
+        default: 'ESXi60'
 
 jobs:
   Build:
