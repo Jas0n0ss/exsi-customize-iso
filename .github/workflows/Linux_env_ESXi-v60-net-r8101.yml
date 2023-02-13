@@ -1,4 +1,4 @@
-name: ESXi-v60-net-r8101 iso
+name: EXSi_60_Customized_Net-r8101_linux_env
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'ESXi60-net-r8101'
+        default: 'EXSi_60_Customized'
       driver:
         description: 'Driver Name'
         required: true
@@ -55,7 +55,7 @@ jobs:
         run: |
           wget -O ESXi-Customizer-PS-2.9.0.zip https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip
           unzip ESXi-Customizer-PS-2.9.0.zip && cd ESXi-Customizer-PS-2.9.0
-          pwsh -c ./ESXi-Customizer-PS.ps1 -v60 -nsc -vft -log exsi.log -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}
+          pwsh -c ./ESXi-Customizer-PS.ps1 -v60 -nsc -vft -log exsi.log -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           ls -l /mnt
           
       - name: Create Release
@@ -65,4 +65,4 @@ jobs:
           name: ${{ github.event.inputs.tag }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
-            ${{ github.event.inputs.tag }}.iso
+            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
