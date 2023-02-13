@@ -16,7 +16,8 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 driver:
   description: 'Driver Name'
   required: true
-  default: 'net55-r8168' # change the driver name you need base on https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
+  # change the driver name you need base on https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
+  default: 'net55-r8168' 
 ```
 - change exsi version which compatible with the driver
 ```yaml
@@ -25,7 +26,8 @@ driver:
   run: |
     cd $env:WORK_DIR\
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-    .\ESXi-Customizer-PS.ps1 -nsc -v67 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}  # change exsi version like -v60,-v65,-v67,-v70..., make Supportbility ./ESXi-Customizer-PS.ps1 -h
+    # change exsi version like -v60,-v65,-v67,-v70..., make Supportbility ./ESXi-Customizer-PS.ps1 -h
+    .\ESXi-Customizer-PS.ps1 -nsc -v67 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}  
     dir .
 ```
 
