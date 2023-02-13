@@ -22,7 +22,7 @@ jobs:
            python-version: '3.7' 
       - name: Python Check
         shell: bash
-      - run: |
+        run: |
           which python && which pip3
           python --version && pip3 --version
       
