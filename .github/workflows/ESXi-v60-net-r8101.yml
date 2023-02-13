@@ -21,10 +21,8 @@ jobs:
         with:
            python-version: '3.7' 
       - run: |
-          which python
-          which pip3
-          python --version 
-          pip3 --version
+          which python && which pip3
+          python --version && pip3 --version
       
       #- name: Install Python3.7
       #  shell: bash
@@ -46,8 +44,8 @@ jobs:
         shell: bash
         run: |
           pwsh Install-Module -Name VMware.PowerCLI -Force -AcceptLicense
-          pwsh Set-PowerCLIConfiguration -PythonPath /opt/python37/bin/python  -Scope User
-          /opt/python37/bin/pip3.7 install six psutil lxml pyopenssl
+          pwsh Set-PowerCLIConfiguration -PythonPath /opt/hostedtoolcache/Python/3.7.15/x64/bin/python  -Scope User
+          /opt/hostedtoolcache/Python/3.7.15/x64/bin/pip install six psutil lxml pyopenssl
           
       - name: Download ESXi-Customizer-PS Script
         shell: bash
