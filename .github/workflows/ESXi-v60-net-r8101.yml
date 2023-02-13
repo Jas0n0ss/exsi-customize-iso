@@ -16,16 +16,21 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        
-      - name: Install Python3.7
-        shell: bash
-        run: |
-          sudo apt-get update && sudo apt-get install wget make gcc unzip -y
-          wget /opt/Python-3.7.0.tgz https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
-          cd /opt/ && tar -zxvf Python-3.7.0.tgz 
-          cd /opt/Python-3.7.0 && ./configure --prefix=/opt/python37 && make -j 32 && make install
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+           python-version: '3.7' 
+      - run: |
+          which python
+          python --version
+      
+      #- name: Install Python3.7
+      #  shell: bash
+      #  run: |
+      #    sudo apt-get update && sudo apt-get install wget make gcc unzip -y
+      #    wget /opt/Python-3.7.0.tgz https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+      #    cd /opt/ && tar -zxvf Python-3.7.0.tgz 
+      #    cd /opt/Python-3.7.0 && ./configure --prefix=/opt/python37 && make -j 32 && make install
           
       - name: Install Powershell
         shell: bash
