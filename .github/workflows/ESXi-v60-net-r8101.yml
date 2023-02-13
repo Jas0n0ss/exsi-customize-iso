@@ -23,17 +23,17 @@ jobs:
         shell: bash
         run: |
           apt-get update && apt-get install wget make gcc unzip -y
-          wget -L -O /opt/src/Python-3.7.0.tgz https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+          wget -O /opt/src/Python-3.7.0.tgz https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
           cd /opt/src/ && tar -zxvf Python-3.7.0.tgz 
           cd Python-3.7.0 && ./configure --prefix=/opt/python37 && make -j 32 && make install
           
       - name: Install Powershell
         shell: bash
         run: |
-          apt-get update && apt-get install -y wget apt-transport-https software-properties-common
+          sudo apt-get update && sudo apt-get install -y wget apt-transport-https software-properties-common
           wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
-          dpkg -i packages-microsoft-prod.deb
-          apt-get update && apt-get install -y powershell
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo apt-get update && sudo apt-get install -y powershell
           
       - name: Install VMware.PowerCli and Dependency
         shell: bash
@@ -45,7 +45,7 @@ jobs:
       - name: Download ESXi-Customizer-PS Script
         shell: bash
         run: |
-          wget -L -O /mnt/ESXi-Customizer-PS-2.9.0.zip https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip
+          wget -O /mnt/ESXi-Customizer-PS-2.9.0.zip https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip
           cd /mnt && unzip ESXi-Customizer-PS-2.9.0.zip && cd ESXi-Customizer-PS-2.9.0
           pwsh ./ESXi-Customizer-PS.ps1 -h
 
