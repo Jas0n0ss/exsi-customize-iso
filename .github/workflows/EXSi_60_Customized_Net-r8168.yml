@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSi_67_Customized'
+        default: 'EXSi_60_Customized'
       driver:
         description: 'Driver Name'
         required: true
