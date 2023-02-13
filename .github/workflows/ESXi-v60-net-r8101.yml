@@ -61,7 +61,7 @@ jobs:
         shell: bash
         run: |
           cd /mnt/ESXi-Customizer-PS-2.9.0
-          pwsh -c ".\ESXi-Customizer-PS.ps1 -nsc -vft -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }} -outDir ..\"
+          pwsh -c "./ESXi-Customizer-PS.ps1 -nsc -vft -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }} -outDir ..\"
           ls -l /mnt
           
       - name: Create Release
