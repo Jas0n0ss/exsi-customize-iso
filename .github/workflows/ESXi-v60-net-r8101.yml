@@ -22,7 +22,7 @@ jobs:
       - name: Install Python3.7
         shell: bash
         run: |
-          apt-get update && apt-get install wget make gcc unzip -y
+          sudo apt-get update && sudo apt-get install wget make gcc unzip -y
           wget -O /opt/src/Python-3.7.0.tgz https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
           cd /opt/src/ && tar -zxvf Python-3.7.0.tgz 
           cd Python-3.7.0 && ./configure --prefix=/opt/python37 && make -j 32 && make install
