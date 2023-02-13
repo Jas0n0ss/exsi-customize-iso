@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'ESXi-Customized-ISO'
+        default: 'EXSi_60_Customized'
       driver:
         description: 'Driver Name'
         required: true
@@ -41,8 +41,6 @@ jobs:
         shell: powershell
         run: |
           Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
-          Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false 
-        # Set-PowerCLIConfiguration -PythonPath C:\hostedtoolcache\windows\Python\3.7.9\x64\python.exe -Scope User 
 
       - name: Python env setup for VMware.PowerCLI
         shell: powershell
@@ -54,8 +52,8 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -nsc -v60 -vft -load ${{ github.event.inputs.driver }},sata-xahci -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
-          dir ..
+          .\ESXi-Customizer-PS.ps1 -nsc -v60 -vft -load ${{ github.event.inputs.driver }},sata-xahci -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
+          dir .
          
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -64,4 +62,4 @@ jobs:
           name: ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
-            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
+            $env:WORK_DIR\${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
