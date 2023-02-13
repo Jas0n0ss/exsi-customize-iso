@@ -52,8 +52,8 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -nsc -v67 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..
-          dir ..
+          .\ESXi-Customizer-PS.ps1 -nsc -v67 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
+          dir .
          
       - name: Create Release
         uses: softprops/action-gh-release@v1
