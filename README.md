@@ -1,4 +1,4 @@
-# Online Publish EXSi ISO With Network Drivers
+# Customize EXSi ISO With required Network Drivers
 
 If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secrets`
 
@@ -8,6 +8,14 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 [jason@bo ~]$ lspci | grep -i Ethernet
 02:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 07)
 03:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 07)
+```
+
+> How to use this action to build exsi on your own
+-  change the default driver
+```yaml
+```
+- change exsi version which compatible with the driver
+```yaml
 ```
 
 > Reference
