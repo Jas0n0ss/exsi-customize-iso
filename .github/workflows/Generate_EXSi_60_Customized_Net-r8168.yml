@@ -1,4 +1,4 @@
-name: Generate EXSi Customized ISO
+name: Generate_EXSi_60_Customized_Net-r8168
 on:
   repository_dispatch:
   workflow_dispatch:
