@@ -26,8 +26,7 @@ jobs:
         with:
           python-version: '3.7' 
       - name: Python Check
-      - run: |
-        python.exe --version
+      - run: python.exe --version
         
       - name: Download ESXi-Customizer-PS Script
         shell: powershell
