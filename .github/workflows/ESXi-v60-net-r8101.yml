@@ -56,7 +56,7 @@ jobs:
           wget -O ESXi-Customizer-PS-2.9.0.zip https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip
           unzip ESXi-Customizer-PS-2.9.0.zip && cd ESXi-Customizer-PS-2.9.0
           pwsh ./ESXi-Customizer-PS.ps1 -h
-          pwsh -c "./ESXi-Customizer-PS.ps1 -v60 -nsc -vft -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}"
+          pwsh -c "./ESXi-Customizer-PS.ps1 -v60 -nsc -vft -log exsi.log -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}"
           ls -l /mnt
           
       - name: Create Release
