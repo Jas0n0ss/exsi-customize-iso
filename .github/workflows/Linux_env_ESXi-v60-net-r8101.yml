@@ -45,10 +45,8 @@ jobs:
       - name: Install VMware.PowerCli and Dependency
         shell: bash
         run: |
-          pwsh -c “Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false”
           pwsh -c ”Install-Module -Name VMware.PowerCLI -Force -AcceptLicense“
-          pwsh -c “Set-PowerCLIConfiguration -PythonPath /opt/hostedtoolcache/Python/3.7.15/x64/bin/python  -Scope User”
-          /opt/hostedtoolcache/Python/3.7.15/x64/bin/pip install six psutil lxml pyopenssl
+          pip3 install six psutil lxml pyopenssl
           
       - name: Download ESXi-Customizer-PS Script and Use Script Customize Exsi ISO
         shell: bash
@@ -56,7 +54,6 @@ jobs:
           wget -O ESXi-Customizer-PS-2.9.0.zip https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip
           unzip ESXi-Customizer-PS-2.9.0.zip && cd ESXi-Customizer-PS-2.9.0
           pwsh -c ./ESXi-Customizer-PS.ps1 -v60 -nsc -vft -log exsi.log -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
-          ls -l /mnt
           
       - name: Create Release
         uses: softprops/action-gh-release@v1
