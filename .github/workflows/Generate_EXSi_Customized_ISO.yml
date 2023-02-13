@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: '3.7' 
       - name: Python Check
-      - run: python.exe --version
+        run: python.exe --version
         
       - name: Download ESXi-Customizer-PS Script
         shell: powershell
@@ -52,7 +52,7 @@ jobs:
         run: |
           cd $env:WORK_DIR\
         #  .\ESXi-Customizer-PS.ps1 ${{ exsi_version }} -vft -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }} -outDir ..\
-          .\ESXi-Customizer-PS.ps1 ${{ exsi_version }} -vft -load ${{ custom_driver.r8101 }},${{ custom_driver.sata }} -ipname ${{ github.event.inputs.tag }}_${{ custom_driver.r8101 }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -${{ github.event.env.custom_driver.r8101 }} -vft -load ${{ github.event.env.custom_driver.r8101 }},sata-xahci -ipname ${{ github.event.inputs.tag }}_${{ github.event.env.custom_driver.r8101 }} -outDir ..\
           dir ..
          
       - name: Create Release
