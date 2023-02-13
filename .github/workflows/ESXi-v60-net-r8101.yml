@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           apt-get update && apt-get install wget make gcc unzip -y
-          wget -O -L /opt/src/Python-3.7.0.tgz https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+          wget -L -O /opt/src/Python-3.7.0.tgz https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
           cd /opt/src/ && tar -zxvf Python-3.7.0.tgz 
           cd Python-3.7.0 && ./configure --prefix=/opt/python37 && make -j 32 && make install
           
@@ -45,7 +45,7 @@ jobs:
       - name: Download ESXi-Customizer-PS Script
         shell: bash
         run: |
-          wget -O -L /mnt/ESXi-Customizer-PS-2.9.0.zip https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip
+          wget -L -O /mnt/ESXi-Customizer-PS-2.9.0.zip https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip
           cd /mnt && unzip ESXi-Customizer-PS-2.9.0.zip && cd ESXi-Customizer-PS-2.9.0
           pwsh ./ESXi-Customizer-PS.ps1 -h
 
