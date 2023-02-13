@@ -25,7 +25,7 @@ jobs:
         shell: powershell
         run: |
           python --version
-          dir C:\hostedtoolcache\windows\Python\3.7.9\x64
+          dir C:\hostedtoolcache\windows\Python\3.7.9\x64\Scripts
         
       - name: Download ESXi-Customizer-PS Script
         shell: powershell
@@ -44,12 +44,12 @@ jobs:
           Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false
           Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          Set-PowerCLIConfiguration -PythonPath "C:\hostedtoolcache\windows\Python\3.7.9\x64\bin\python.exe" -Scope User
+          Set-PowerCLIConfiguration -PythonPath "C:\hostedtoolcache\windows\Python\3.7.9\x64\python.exe" -Scope User
         
       - name: Python env setup for VMware.PowerCLI
         shell: powershell
         run: |
-          C:\hostedtoolcache\windows\Python\3.7.9\x64\bin\pip3.exe install six psutil lxml pyopenssl
+          C:\hostedtoolcache\windows\Python\3.7.9\x64\Scripts\pip3.exe install six psutil lxml pyopenssl
 
       - name:  Generate EXSi ISO File
         shell: powershell
