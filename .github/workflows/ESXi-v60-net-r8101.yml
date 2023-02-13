@@ -22,7 +22,9 @@ jobs:
            python-version: '3.7' 
       - run: |
           which python
-          python --version
+          which pip3
+          python --version 
+          pip3 --version
       
       #- name: Install Python3.7
       #  shell: bash
