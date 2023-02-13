@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
            python-version: '3.7' 
-      - name: Install Powershell
+      - name: Python Check
         shell: bash
       - run: |
           which python && which pip3
