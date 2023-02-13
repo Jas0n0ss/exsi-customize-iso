@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'ESXi-Customized-ISO'
+        default: 'EXSi_65_Customized'
       driver:
         description: 'Driver Name'
         required: true
