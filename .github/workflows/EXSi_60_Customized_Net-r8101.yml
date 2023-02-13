@@ -10,7 +10,7 @@ on:
       driver:
         description: 'Driver Name'
         required: true
-        default: 'net55-r8168'
+        default: 'net-r8101'
         
 jobs:
   Build:
@@ -25,8 +25,7 @@ jobs:
         shell: powershell
         run: |
           python --version
-          dir C:\hostedtoolcache\windows\Python\3.7.9\x64\Scripts
-        
+          
       - name: Download ESXi-Customizer-PS Script
         shell: powershell
         run: |
@@ -48,7 +47,7 @@ jobs:
       - name: Python env setup for VMware.PowerCLI
         shell: powershell
         run: |
-          C:\hostedtoolcache\windows\Python\3.7.9\x64\Scripts\pip3.exe install six psutil lxml pyopenssl
+          pip3.exe install six psutil lxml pyopenssl
 
       - name:  Generate EXSi ISO File
         shell: powershell
