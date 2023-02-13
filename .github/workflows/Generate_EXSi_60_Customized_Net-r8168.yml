@@ -24,8 +24,8 @@ jobs:
       - name: Python Check
         shell: powershell
         run: |
-          C:\hostedtoolcache\windows\Python\3.7.9\x64\bin\python.exe --version
-          C:\hostedtoolcache\windows\Python\3.7.9\x64\bin\pip.exe --verion
+          python --version
+          dir C:\hostedtoolcache\windows\Python\3.7.9\x64
         
       - name: Download ESXi-Customizer-PS Script
         shell: powershell
