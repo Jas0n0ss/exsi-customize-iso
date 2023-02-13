@@ -41,9 +41,9 @@ jobs:
       - name: Install VMware.PowerCLI
         shell: powershell
         run: |
-          Set-PowerCLIConfiguration -PythonPath "C:\hostedtoolcache\windows\Python\3.7.9\x64\python.exe" -Scope User
-          Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false 
           Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
+          Set-PowerCLIConfiguration -PythonPath "C:\hostedtoolcache\windows\Python\3.7.9\x64\python.exe" -Scope User 
+          Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false 
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
         
       - name: Python env setup for VMware.PowerCLI
