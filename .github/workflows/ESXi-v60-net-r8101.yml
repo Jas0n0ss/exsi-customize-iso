@@ -1,0 +1,66 @@
+name: Auto Generate EXSi ISO
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release Tag'
+        required: true
+        default: 'ESXi60-net-r8101'
+      driver:
+        description: 'Driver Name'
+        required: true
+        default: 'net-r8101'
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Install Python3.7
+        shell: bash
+        run: |
+          apt-get update && apt-get install wget make gcc unzip -y
+          wget -O -L /opt/src/Python-3.7.0.tgz https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+          cd /opt/src/ && tar -zxvf Python-3.7.0.tgz 
+          cd Python-3.7.0 && ./configure --prefix=/opt/python37 && make -j 32 && make install
+          
+      - name: Install Powershell
+        shell: bash
+        run: |
+          apt-get update && apt-get install -y wget apt-transport-https software-properties-common
+          wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+          dpkg -i packages-microsoft-prod.deb
+          apt-get update && apt-get install -y powershell
+          
+      - name: Install VMware.PowerCli and Dependency
+        shell: bash
+        run: |
+          pwsh Install-Module -Name VMware.PowerCLI -Force -AcceptLicense
+          pwsh Set-PowerCLIConfiguration -PythonPath /opt/python37/bin/python  -Scope User
+          /opt/python37/bin/pip3.7 install six psutil lxml pyopenssl
+          
+      - name: Download ESXi-Customizer-PS Script
+        shell: bash
+        run: |
+          wget -O -L /mnt/ESXi-Customizer-PS-2.9.0.zip https://github.com/VFrontDe-Org/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip
+          cd /mnt && unzip ESXi-Customizer-PS-2.9.0.zip && cd ESXi-Customizer-PS-2.9.0
+          pwsh ./ESXi-Customizer-PS.ps1 -h
+
+      - name: Customize Exsi ISO
+        shell: bash
+        run: |
+          cd /mnt/ESXi-Customizer-PS-2.9.0
+          pwsh .\ESXi-Customizer-PS.ps1 -nsc -vft -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }} -outDir ..\
+          ls -l /mnt
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          name: ${{ github.event.inputs.tag }}
+          tag_name: ${{ github.event.inputs.tag }}
+          files: |
+            ${{ github.event.inputs.tag }}.iso
