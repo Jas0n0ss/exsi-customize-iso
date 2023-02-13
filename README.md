@@ -20,6 +20,13 @@ driver:
 ```
 - change exsi version which compatible with the driver
 ```yaml
+- name:  Generate EXSi ISO File
+  shell: powershell
+  run: |
+    cd $env:WORK_DIR\
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+    .\ESXi-Customizer-PS.ps1 -nsc -v67 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}  # change exsi version like -v60,-v65,-v67,-v70..., make Supportbility ./ESXi-Customizer-PS.ps1 -h
+    dir .
 ```
 
 > Reference
