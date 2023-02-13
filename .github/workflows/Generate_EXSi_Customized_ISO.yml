@@ -25,7 +25,7 @@ jobs:
         shell: powershell
         run: |
           python.exe --version
-          python.exe -c "import os, sys; print(os.path.dirname(sys.executable))"
+          where python
         
       - name: Download ESXi-Customizer-PS Script
         shell: powershell
