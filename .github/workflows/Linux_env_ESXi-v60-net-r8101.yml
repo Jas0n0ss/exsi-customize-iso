@@ -1,4 +1,4 @@
-name: Auto Generate ESXi-v60-net-r8101 iso
+name: ESXi-v60-net-r8101 iso
 on:
   repository_dispatch:
   workflow_dispatch:
