@@ -2,6 +2,14 @@
 
 If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secrets`
 
+> check the hardware of which network driver you need
+
+```bash
+[jason@bo ~]$ lspci | grep -i Ethernet
+02:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 07)
+03:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 07)
+```
+
 > Reference
 
 - [https://www.v-front.de](https://www.v-front.de/)
