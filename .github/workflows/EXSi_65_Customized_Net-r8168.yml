@@ -1,4 +1,4 @@
-name: EXSi_65_Customized_Net-r8168
+name: EXSi_67_Customized_Net-r8168
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSi_65_Customized'
+        default: 'EXSi_67_Customized'
       driver:
         description: 'Driver Name'
         required: true
@@ -52,7 +52,7 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -nsc -v65 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -nsc -v67 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..
           dir ..
          
       - name: Create Release
@@ -62,4 +62,4 @@ jobs:
           name: ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
-            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
+            $env:WORK_DIR\${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
