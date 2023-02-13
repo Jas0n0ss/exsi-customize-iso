@@ -13,6 +13,10 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 > How to use this action to build exsi on your own
 -  change the default driver
 ```yaml
+driver:
+  description: 'Driver Name'
+  required: true
+  default: 'net55-r8168' # change the driver name you need base on https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
 ```
 - change exsi version which compatible with the driver
 ```yaml
