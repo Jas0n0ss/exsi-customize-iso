@@ -1,0 +1,66 @@
+name: Generate EXSi Customized ISO
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release Tag'
+        required: true
+        default: 'ESXi-Customized-ISO'
+      driver:
+        description: 'Driver Name'
+        required: true
+        default: 'net55-r8168'
+      env:
+        exsi_version: v60
+        custom_driver: 
+          r8168: net55-r8168
+          r8101: net-r8101
+          sata: sata-xahci
+jobs:
+  Build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7' 
+      - name: Python Check
+      - run: |
+        python.exe --version
+        
+      - name: Download ESXi-Customizer-PS Script
+        shell: powershell
+        run: |
+          $client = new-object System.Net.WebClient
+          $client.DownloadFile('https://github.com/VFrontDe/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip','ESXi-Customizer-PS.zip')
+          Expand-Archive -Path ESXi-Customizer-PS.zip -DestinationPath ./
+          cd ESXi-Customizer-PS-2.9.0
+          $env:WORK_DIR=$PWD
+          $env:WORK_DIR
+          echo "WORK_DIR=$env:WORK_DIR" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Install PowerCLI
+        shell: powershell
+        run: Install-Module -Name VMware.PowerCLI -AcceptLicense -Force
+        
+      - name: Python env setup for VMware.PowerCLI
+        shell: powershell
+        run: pip3.7.exe install six psutil lxml pyopenssl
+
+      - name:  Generate EXSi ISO File
+        shell: powershell
+        run: |
+          cd $env:WORK_DIR\
+        #  .\ESXi-Customizer-PS.ps1 ${{ exsi_version }} -vft -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 ${{ exsi_version }} -vft -load ${{ custom_driver.r8101 }},${{ custom_driver.sata }} -ipname ${{ github.event.inputs.tag }}_${{ custom_driver.r8101 }} -outDir ..\
+          dir ..
+         
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          name: ${{ github.event.inputs.tag }}_${{ custom_driver.r8101 }}
+          tag_name: ${{ github.event.inputs.tag }}
+          files: |
+            ${{ github.event.inputs.tag }}_${{ custom_driver.r8101 }}.iso
