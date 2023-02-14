@@ -44,7 +44,9 @@ jobs:
       - name: Install VMware.PowerCli
         shell: pwsh
         run: |
+          $PSVersionTable
           Install-Module -Name VMware.PowerCLI -Force -AcceptLicense
+          Get-Module -Name VMware.PowerCli -ListAvailable
           pip3 install six psutil lxml pyopenssl
           
       
