@@ -1,4 +1,4 @@
-name: EXSi_60_Customized_Net-r8168
+name: EXSi_60_sata_Net-r8168
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -10,7 +10,10 @@ on:
       driver:
         description: 'Driver Name'
         required: true
-        default: 'net55-r8168'
+       # default: 'net55-r8168'
+        default: 
+          net55-r8168
+          sata-xahci
         
 jobs:
   Build:
