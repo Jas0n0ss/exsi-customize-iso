@@ -26,7 +26,7 @@ driver:
   run: |
     cd $env:WORK_DIR\
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-    # change exsi version like -v60,-v65,-v67,-v70..., make Supportbility ./ESXi-Customizer-PS.ps1 -h
+    # change exsi version like -v60,-v65,-v67,-v70..., more Supportbility ./ESXi-Customizer-PS.ps1 -h
     .\ESXi-Customizer-PS.ps1 -nsc -v67 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}  
     dir .
 ```
