@@ -12,23 +12,26 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 
 > How to use this action to build exsi on your own
 -  change the default driver
+
 ```yaml
-driver:
-  description: 'Driver Name'
-  required: true
-  # change the driver name you need base on https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
-  default: 'net55-r8168' 
+- name: Download ESXi-Customizer-PS Script
+        shell: powershell
+        run: |
+          ...
+          # change the driver name you need base on https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
+          $env:VIB='sata-xahci,net55-r8168'
+          $env:VIB
 ```
 - change exsi version which compatible with the driver
+
 ```yaml
 - name:  Generate EXSi ISO File
   shell: powershell
   run: |
-    cd $env:WORK_DIR\
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+    ...
     # change exsi version like -v60,-v65,-v67,-v70..., more Supportbility ./ESXi-Customizer-PS.ps1 -h
-    .\ESXi-Customizer-PS.ps1 -nsc -v67 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}  
-    dir .
+    .\ESXi-Customizer-PS.ps1 -nsc -v60 -vft -load $env:VIB -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\ -log buildlog.txt
+    dir ..\
 ```
 
 > Reference
@@ -38,6 +41,7 @@ driver:
 - [https://github.com/HalfCoke/custom-vmware-esxi](https://github.com/HalfCoke/custom-vmware-esxi)
 - [https://github.com/VFrontDe/ESXi-Customizer-PS](https://github.com/VFrontDe/ESXi-Customizer-PS)
 - [https://oss.msft.vip/2023/02/10/custom-exsi-iso-with-Additional-driver/](https://oss.msft.vip/2023/02/10/custom-exsi-iso-with-Additional-driver/)
+
 ```powershell
 # all available drivers can be found https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
 # script usage
