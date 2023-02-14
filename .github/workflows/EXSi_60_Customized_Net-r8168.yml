@@ -46,6 +46,11 @@ jobs:
         shell: powershell
         run: |
           pip3.exe install six psutil lxml pyopenssl
+          
+      - name: download base image
+        shell: powershell
+        run: |
+          
 
       - name:  Generate EXSi ISO File
         shell: powershell
