@@ -31,9 +31,15 @@ jobs:
           $env:WORK_DIR=$PWD
           $env:WORK_DIR
           echo "WORK_DIR=$env:WORK_DIR" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          $env:VIB='sata-xahci,net55-r8168'
-          $env:VIB
 
+      - name: Customize Desired Driver env and ISO File Name
+        shell: powershell
+        run: |
+          $env:VIB='sata-xahci,net-r8101'
+          $env:VIB
+          $env:ISO='ESXi6.0-Customized'
+          $env:ISO
+          
       - name: Install VMware.PowerCLI and Python dependency
         shell: powershell
         run: |
@@ -52,15 +58,15 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -log ..\build-log.txt -v60 -vft -load $env:VIB -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -log ..\build-log.txt -v60 -vft -load $env:VIB -ipname $env:ISO_${{ github.event.inputs.tag }} -outDir ..\
           dir ..\
          
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.TOKEN }}
-          name: ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
+          name: $env:ISO_${{ github.event.inputs.driver }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
             build-log.txt
-            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
+            $env:ISO_${{ github.event.inputs.driver }}.iso
