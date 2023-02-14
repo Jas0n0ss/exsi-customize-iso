@@ -13,14 +13,14 @@ on:
         default: 'net-r8101'
         
 jobs:
-  Env_Build:
+  Build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.7' 
-          
+    
       - name: Download ESXi-Customizer-PS Script
         shell: powershell
         run: |
@@ -37,7 +37,7 @@ jobs:
         run: |
           Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
           pip3.exe install six psutil lxml pyopenssl
-          
+           
       - name: Download exsi6.0 base image
         shell: powershell
         run: |
@@ -50,9 +50,9 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }},sata-xahci -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
           dir ..\
-    
+         
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
