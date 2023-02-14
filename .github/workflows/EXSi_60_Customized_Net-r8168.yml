@@ -11,9 +11,7 @@ on:
         description: 'Driver Name'
         required: true
        # default: 'net55-r8168'
-        default: 
-          net55-r8168
-          sata-xahci
+        default: 'net55-r8168,sata-xahci'
         
 jobs:
   Build:
