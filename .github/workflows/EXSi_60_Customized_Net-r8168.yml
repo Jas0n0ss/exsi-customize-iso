@@ -44,7 +44,7 @@ jobs:
           pip3.exe install six psutil lxml pyopenssl
            
       - name: Download exsi6.0 base image
-        shell: pwsh
+        shell: powershell
         run: |
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
