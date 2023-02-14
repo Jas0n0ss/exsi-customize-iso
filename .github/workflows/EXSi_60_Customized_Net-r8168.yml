@@ -55,8 +55,8 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
-          dir .
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
+          dir ..\
          
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -65,4 +65,4 @@ jobs:
           name: ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
-            $env:WORK_DIR\${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
+            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
