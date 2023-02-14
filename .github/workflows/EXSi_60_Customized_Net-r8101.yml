@@ -1,4 +1,4 @@
-name: EXSi_60_Customized_Net-r8101
+name: EXSi_60_sata_Net-r8101
 on:
   repository_dispatch:
   workflow_dispatch:
