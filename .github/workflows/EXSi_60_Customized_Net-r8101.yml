@@ -32,12 +32,12 @@ jobs:
           $env:WORK_DIR
           echo "WORK_DIR=$env:WORK_DIR" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           
-      - name: Customize Desired Driver env ISO Name
+      - name: Customize Desired Driver env and ISO File Name
         shell: powershell
         run: |
           $env:VIB='sata-xahci,net-r8101'
           $env:VIB
-          $env:ISO='ESXi-Customize'
+          $env:ISO='ESXi-Customized'
           $env:ISO
 
       - name: Install VMware.PowerCLI and Python dependency
