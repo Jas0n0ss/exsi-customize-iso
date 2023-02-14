@@ -42,7 +42,6 @@ jobs:
         run: |
           Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
           pip3.exe install six psutil lxml pyopenssl
-          Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false
            
       - name: Download exsi6.0 base image
         shell: powershell
