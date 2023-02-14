@@ -46,7 +46,7 @@ jobs:
         run: |
           cd ESXi-Customizer-PS-2.9.0
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200203001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200203001-standard.zip
+          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200204001-standard.zip
           
       - name: Install VMware.PowerCli
         shell: pwsh
@@ -61,13 +61,14 @@ jobs:
         shell: pwsh
         run: |
           cd ESXi-Customizer-PS-2.9.0
-          ./ESXi-Customizer-PS.ps1 -izip ./ESXi-6.0.0-20200203001-standard.zip -nsc -vft -log exsi.log -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir $PWD
+          ./ESXi-Customizer-PS.ps1 -izip ./ESXi-6.0.0-20200204001-standard.zip -nsc -vft -log exsi.log -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir .
       
       - name: Rename iso
         shell: bash
         run: |
           cd ESXi-Customizer-PS-2.9.0
           dir .
+          mv ../ESXi-Customizer-PS-2.9.0\\EXSi_60_Customized_net-r8101.iso EXSi_60_Customized_net-r8101.iso
        
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -76,4 +77,4 @@ jobs:
           name: ${{ github.event.inputs.tag }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
-            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
+            ESXi-Customizer-PS-2.9.0/${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
