@@ -31,6 +31,9 @@ jobs:
           $env:WORK_DIR=$PWD
           $env:WORK_DIR
           echo "WORK_DIR=$env:WORK_DIR" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          # customize desired driver 
+          $env:VIB='sata-xahci,net-r8101'
+          $env:VIB
 
       - name: Install VMware.PowerCLI and Python dependency
         shell: powershell
@@ -50,7 +53,7 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }},sata-xahci -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load $env:VIB -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\ -log build-log.txt
           dir ..\
          
       - name: Create Release
@@ -60,4 +63,5 @@ jobs:
           name: ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
+            build-log.txt
             ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
