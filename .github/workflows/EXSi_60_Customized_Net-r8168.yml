@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSi_60_Customized'
+        default: 'EXSI6.0'
       driver:
         description: 'Driver Name'
         required: true
@@ -35,10 +35,8 @@ jobs:
       - name: Customize Desired Driver env and ISO File Name
         shell: powershell
         run: |
-          $env:VIB='sata-xahci,net-r8101'
+          $env:VIB='sata-xahci,net55-r8168'
           $env:VIB
-          $env:ISO='ESXi6.0-Customized'
-          $env:ISO
           
       - name: Install VMware.PowerCLI and Python dependency
         shell: powershell
@@ -52,21 +50,22 @@ jobs:
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
           Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200204001-standard.zip
+          $env:BaseIMG='ESXi-6.0.0-20200204001-standard.zip'
           
       - name:  Generate EXSi ISO File
         shell: powershell
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -log ..\build-log.txt -v60 -vft -load $env:VIB -ipname $env:ISO_${{ github.event.inputs.tag }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip .\$env:BaseIMG -nsc -log ..\build-log.txt -v60 -vft -load $env:VIB -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
           dir ..\
          
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.TOKEN }}
-          name: $env:ISO_${{ github.event.inputs.driver }}
+          name: ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
             build-log.txt
-            $env:ISO_${{ github.event.inputs.driver }}.iso
+            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
