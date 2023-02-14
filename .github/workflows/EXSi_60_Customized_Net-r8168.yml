@@ -56,7 +56,7 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip ./ESXi-6.0.0-20200203001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200203001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           dir .
          
       - name: Create Release
