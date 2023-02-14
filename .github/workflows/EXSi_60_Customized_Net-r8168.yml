@@ -42,13 +42,13 @@ jobs:
         run: |
           Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
           pip3.exe install six psutil lxml pyopenssl
+          Set-PowerCLIConfiguration -Scope User -ParticipateInCEIP $false
            
       - name: Download exsi6.0 base image
         shell: powershell
         run: |
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-          # New-EsxImageProfile -CloneProfile "ESXi-6.0.0-20200204001-standard" -name "ESXi-6.0.0-20200204001-standard-r8168" -Vendor "oss.msft.vip"
           Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200204001-standard.zip
           
       - name:  Generate EXSi ISO File
