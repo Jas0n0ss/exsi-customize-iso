@@ -67,7 +67,7 @@ jobs:
         run: |
           cd ESXi-Customizer-PS-2.9.0
           dir .
-          mv ../ESXi-Customizer-PS-2.9.0\\EXSi_60_Customized_net-r8101.iso EXSi_60_Customized_net-r8101.iso
+          mv ./ESXi-Customizer-PS-2.9.0\\EXSi_60_Customized_net-r8101.iso EXSi_60_Customized_net-r8101.iso
        
       - name: Create Release
         uses: softprops/action-gh-release@v1
