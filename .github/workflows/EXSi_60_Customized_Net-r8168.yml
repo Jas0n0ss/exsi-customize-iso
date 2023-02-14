@@ -48,8 +48,8 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-          New-EsxImageProfile -CloneProfile "ESXi-6.0.0-20200203001-standard" -name "ESXi-6.0.0-20200203001-standard-r8168" -Vendor "oss.msft.vip"
-          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200203001-standard-r8168" -ExportToBundle -filepath ESXi-6.0.0-20200203001-standard.zip
+        # New-EsxImageProfile -CloneProfile "ESXi-6.0.0-20200204001-standard" -name "ESXi-6.0.0-20200204001-standard-r8168" -Vendor "oss.msft.vip"
+          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200204001-standard.zip
           
 
       - name:  Generate EXSi ISO File
@@ -57,7 +57,7 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200203001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard -nsc -v60 -vft -load ${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           dir .
          
       - name: Create Release
