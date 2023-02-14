@@ -48,7 +48,8 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200203001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200203001-standard.zip
+          New-EsxImageProfile -CloneProfile "ESXi-6.0.0-20200203001-standard" -name "ESXi-6.0.0-20200203001-standard-r8168" -Vendor "oss.msft.vip"
+          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200203001-standard-r8168" -ExportToBundle -filepath ESXi-6.0.0-20200203001-standard.zip
           
 
       - name:  Generate EXSi ISO File
