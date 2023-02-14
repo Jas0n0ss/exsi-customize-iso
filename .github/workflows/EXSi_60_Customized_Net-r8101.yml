@@ -13,18 +13,13 @@ on:
         default: 'net-r8101'
         
 jobs:
-  Build:
+  Env_Build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.7' 
-      
-      - name: Python Check
-        shell: powershell
-        run: |
-          python --version
           
       - name: Download ESXi-Customizer-PS Script
         shell: powershell
@@ -55,9 +50,9 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }},sata-xahci -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
-          dir .
-         
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load ${{ github.event.inputs.driver }},sata-xahci -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
+          dir ..\
+    
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
@@ -65,4 +60,4 @@ jobs:
           name: ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
-            $env:WORK_DIR\${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
+            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
