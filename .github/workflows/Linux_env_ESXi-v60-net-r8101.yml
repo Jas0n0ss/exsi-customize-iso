@@ -52,7 +52,7 @@ jobs:
         shell: pwsh
         run: |
           cd /home/runner/work/exsi-customize-iso/exsi-customize-iso/ESXi-Customizer-PS-2.9.0
-          ./ESXi-Customizer-PS.ps1 -v60 -nsc -vft -log exsi.log -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
+          ./ESXi-Customizer-PS.ps1 -v60 -nsc -vft -log exsi.log -load sata-xahci,${{ github.event.inputs.driver }} -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir $PWD
           
       - name: Create Release
         uses: softprops/action-gh-release@v1
