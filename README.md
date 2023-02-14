@@ -37,9 +37,7 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 
 > Reference
 
-- [https://www.v-front.de](https://www.v-front.de/)
 - [currently_available_ESXi_packages](https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages)
-- [https://github.com/HalfCoke/custom-vmware-esxi](https://github.com/HalfCoke/custom-vmware-esxi)
 - [https://github.com/VFrontDe/ESXi-Customizer-PS](https://github.com/VFrontDe/ESXi-Customizer-PS)
 - [https://oss.msft.vip/2023/02/10/custom-exsi-iso-with-Additional-driver/](https://oss.msft.vip/2023/02/10/custom-exsi-iso-with-Additional-driver/)
 
