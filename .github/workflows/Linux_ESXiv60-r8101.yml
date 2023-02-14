@@ -1,4 +1,4 @@
-name: EXSi_60_Customized_Net-r8101_linux_env
+name: Linux_ENV_ESXiv60-r8101 build
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -41,13 +41,6 @@ jobs:
           unzip ESXi-Customizer-PS-2.9.0.zip && cd ESXi-Customizer-PS-2.9.0
           pwd
           
-      - name: Download base image
-        shell: pwsh
-        run: |
-          cd ESXi-Customizer-PS-2.9.0
-          Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200204001-standard.zip
-          
       - name: Install VMware.PowerCli
         shell: pwsh
         run: |
@@ -56,6 +49,12 @@ jobs:
           Get-Module -Name VMware.PowerCli -ListAvailable
           pip3 install six psutil lxml pyopenssl
           
+      - name: Download base image
+        shell: pwsh
+        run: |
+          cd ESXi-Customizer-PS-2.9.0
+          Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
+          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200204001-standard.zip    
       
       - name: Use Script Customize Exsi ISO
         shell: pwsh
