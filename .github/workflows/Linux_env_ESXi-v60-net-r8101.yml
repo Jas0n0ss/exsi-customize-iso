@@ -42,10 +42,10 @@ jobs:
           sudo dpkg -i packages-microsoft-prod.deb
           sudo apt-get update && sudo apt-get install -y powershell
           
-      - name: Install VMware.PowerCli and Dependency
-        shell: bash
+      - name: Install VMware.PowerCli
+        shell: pwsh
         run: |
-          pwsh -c ”Install-Module -Name VMware.PowerCLI -Force -AcceptLicense“
+          Install-Module -Name VMware.PowerCLI -Force -AcceptLicense
           pip3 install six psutil lxml pyopenssl
           
       - name: Download ESXi-Customizer-PS Script and Use Script Customize Exsi ISO
