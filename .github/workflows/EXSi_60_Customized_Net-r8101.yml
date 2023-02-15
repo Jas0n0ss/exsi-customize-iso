@@ -46,9 +46,7 @@ jobs:
           
           $env:ISO='${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}'
           $env:ISO
-          $env:IPNAME="$env:ISO".iso
           echo "ISO=$env:ISO" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          echo "IPNAME=$env:ISO".iso | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           
       - name: Install VMware.PowerCLI and Python dependency
         shell: powershell
@@ -79,4 +77,4 @@ jobs:
           tag_name: ${{ github.event.inputs.tag }}
           files: |
             build-log.txt
-            $env:ISO.iso
+            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
