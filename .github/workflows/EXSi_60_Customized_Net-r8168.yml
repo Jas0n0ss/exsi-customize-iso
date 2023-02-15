@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSI6.0'
+        default: 'EXSI6.0-net55-r8168'
       driver:
         description: 'Driver Name'
         required: true
@@ -60,15 +60,15 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\$env:BaseIMG -nsc -log ..\build-log.txt -v60 -vft -load $env:VIB -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip .\$env:BaseIMG -nsc -log ..\build-log.txt -v60 -vft -load $env:VIB -ipname ${{ github.event.inputs.tag }} -outDir ..\
           dir ..\
          
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.TOKEN }}
-          name: ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}
+          name: ${{ github.event.inputs.tag }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
             build-log.txt
-            ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }}.iso
+            ${{ github.event.inputs.tag }}.iso
