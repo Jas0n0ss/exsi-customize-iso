@@ -1,4 +1,4 @@
-name: EXSi_60_sata_Net-r8168
+name: EXSi_60_sata_Net55-r8168
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -45,7 +45,7 @@ jobs:
           Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
           pip3.exe install six psutil lxml pyopenssl
            
-      - name: Download exsi6.0 base image
+      - name: Download exsi6.0 Base image
         shell: powershell
         run: |
           cd $env:WORK_DIR\
