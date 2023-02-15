@@ -39,7 +39,7 @@ jobs:
           $env:VIB
           echo "VIB=$env:VIB" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           
-          $env:EXSI6='ESXi-6.0.0-20200204001-standard'
+          $env:EXSI6='ESXi-6.0.0-20200204001-standard.zip'
           $env:EXSI6
           echo "EXSI6=$env:EXSI6" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           
@@ -58,14 +58,14 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-          Export-ESXImageProfile -ImageProfile "$env:EXSI6" -ExportToBundle -filepath $env:EXSI6.zip
+          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath $env:EXSI6
           
       - name:  Generate EXSi ISO File
         shell: powershell
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\$env:EXSI6.zip -nsc -v60 -vft -load $env:VIB -ipname $env:ISO -outDir ..\ -log ..\build-log.txt
+          .\ESXi-Customizer-PS.ps1 -izip .\$env:EXSI6 -nsc -v60 -vft -load $env:VIB -ipname $env:ISO -outDir ..\ -log ..\build-log.txt
           dir ..\
          
       - name: Create Release
