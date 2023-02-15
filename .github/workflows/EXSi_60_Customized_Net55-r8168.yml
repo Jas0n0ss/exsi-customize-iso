@@ -32,13 +32,6 @@ jobs:
           $env:WORK_DIR
           echo "WORK_DIR=$env:WORK_DIR" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-      - name: Customize Desired Driver env and ISO File Name
-        shell: powershell
-        run: |
-          $env:VIB='sata-xahci,net55-r8168'
-          $env:VIB
-          echo "VIB=$env:VIB" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
       - name: Install VMware.PowerCLI and Python dependency
         shell: powershell
         run: |
@@ -51,16 +44,13 @@ jobs:
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
           Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200204001-standard.zip
-          $env:BaseIMG='ESXi-6.0.0-20200204001-standard.zip'
-          $env:BaseIMG
-          echo "BaseIMG=$env:BaseIMG" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           
       - name:  Generate EXSi ISO File
         shell: powershell
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
-          .\ESXi-Customizer-PS.ps1 -izip .\$env:BaseIMG -nsc -log ..\build-log.txt -v60 -vft -load $env:VIB -ipname ${{ github.event.inputs.tag }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -log ..\build-log.txt -v60 -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\
           dir ..\
          
       - name: Create Release
