@@ -58,9 +58,9 @@ dir .\driver\vib20\net-community
 
 Github Actions to Install VMware.Powercli, offline install will so much faster then we use `Install-Module -Name VMware.PowerCLI -SkipPublisherCheck -Scope CurrentUser -Force`
 
-Offline install VMware.PowerCLI( `only 5mins` )
+Offline install VMware.PowerCLI( `top 5mins` )
 
-
+![image](https://user-images.githubusercontent.com/88020021/219365299-ceddb02a-113e-4123-bf59-d43f2ea19c00.png)
 
 ```powershell
 # Download VMware.PowerCli
@@ -81,4 +81,11 @@ Get-ChildItem $modulepath\* -Recurse | Unblock-File
 Get-Module -Name VMware.PowerCLI* -ListAvailable 
 ```
 
+When I use `Install-Moudle` in Github Actions, It takes 1H, it surprise me !!!
 
+![image](https://user-images.githubusercontent.com/88020021/219365864-bfee201d-0cb0-4b70-a0ea-3c9aa01bb871.png)
+
+
+```powershell
+Install-Module -Name VMware.PowerCLI -SkipPublisherCheck -Scope CurrentUser -Force
+```
