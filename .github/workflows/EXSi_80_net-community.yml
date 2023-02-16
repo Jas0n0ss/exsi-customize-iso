@@ -61,7 +61,8 @@ jobs:
         run: |
           cd $env:WORK_DIR\ 
           dir .
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+          Get-ExecutionPolicy
+          #Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine -Force
           .\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0.0-20513097-standard.zip -nsc -v80 -pkgDir .\driver\vib20\net-community -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
           dir ..\
          
