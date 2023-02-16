@@ -1,4 +1,4 @@
- # Download VMware.PowerCli
+# Download VMware.PowerCli
 $source = 'https://vdc-repo.vmware.com/vmwb-repository/dcr-public/02830330-d306-4111-9360-be16afb1d284/c7b98bc2-fcce-44f0-8700-efed2b6275aa/VMware-PowerCLI-13.0.0-20829139.zip'
 $destination = '.\VMware-PowerCLI-13.0.0-20829139.zip'
 Invoke-RestMethod -Uri $source -OutFile $destination -Verbose
