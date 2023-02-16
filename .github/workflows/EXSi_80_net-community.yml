@@ -45,8 +45,8 @@ jobs:
         shell: powershell
         run: |
           cd $env:WORK_DIR\
-          #Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-          #Get-EsxImageProfile |  ft Name | findstr "ESXi-8.0.0"
+          Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
+          Get-EsxImageProfile |  ft Name | findstr "ESXi-8.0.0"
           Export-ESXImageProfile -ImageProfile "ESXi-8.0.0-20513097-standard" -ExportToBundle -filepath ESXi-8.0.0-20513097-standard.zip
 
           $client = new-object System.Net.WebClient
