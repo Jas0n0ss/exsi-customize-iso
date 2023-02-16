@@ -35,8 +35,9 @@ jobs:
       - name: Install VMware.PowerCLI and Python dependency
         shell: powershell
         run: |
-          Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
+          #Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
           pip3.exe install six psutil lxml pyopenssl
+          
            
       - name: Download exsi6.0 Base image
         shell: powershell
@@ -49,7 +50,7 @@ jobs:
         shell: powershell
         run: |
           cd $env:WORK_DIR\
-          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+          Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
           .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -log ..\build-log.txt -v60 -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\
           dir ..\
          
