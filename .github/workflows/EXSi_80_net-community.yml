@@ -70,7 +70,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.TOKEN }}
-          name: $env:ISO
+          name: ${{ github.event.inputs.tag }}
           tag_name: ${{ github.event.inputs.tag }}
           files: |
             build-log.txt
