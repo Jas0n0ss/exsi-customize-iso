@@ -50,6 +50,7 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+          get-EsxImageProfile |  ft Name | findstr "ESXi-6.0.0"
           .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -v60 -vft -load sata-xahci,net-r8101 -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
           dir ..\
          
