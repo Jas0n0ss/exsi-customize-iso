@@ -53,3 +53,32 @@ dir .\driver\vib20\net-community
 - [Currently_available_ESXi_packages](https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages)
 - https://github.com/VFrontDe-Org/ESXi-Customizer-PS
 - https://oss.msft.vip/2023/02/10/custom-exsi-iso-with-Additional-driver
+
+> Small tips
+
+Github Actions to Install VMware.Powercli, offline install will so much faster then we use `Install-Module -Name VMware.PowerCLI -SkipPublisherCheck -Scope CurrentUser -Force`
+
+Offline install VMware.PowerCLI( `only 5mins` )
+
+
+
+```powershell
+# Download VMware.PowerCli
+$source = 'https://vdc-repo.vmware.com/vmwb-repository/dcr-public/02830330-d306-4111-9360-be16afb1d284/c7b98bc2-fcce-44f0-8700-efed2b6275aa/VMware-PowerCLI-13.0.0-20829139.zip'
+$destination = '.\VMware-PowerCLI-13.0.0-20829139.zip'
+Invoke-RestMethod -Uri $source -OutFile $destination -Verbose
+
+# Define Powershell Moudle Path
+$modulepath = 'C:\Program Files\WindowsPowerShell\Modules'
+
+# Unzip PowerCli Module defined Moudle Path
+Expand-Archive -LiteralPath $destination -DestinationPath $modulepath
+
+# Load the new Moudle and Verify
+Get-ChildItem $modulepath\* -Recurse | Unblock-File
+
+# Verify
+Get-Module -Name VMware.PowerCLI* -ListAvailable 
+```
+
+
