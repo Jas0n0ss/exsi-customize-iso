@@ -51,5 +51,5 @@ dir .\driver\vib20\net-community
 > More Information
 
 - [Currently_available_ESXi_packages](https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages)
-- https://github.com/VFrontDe-Org/ESXi-Customizer-PS.git
+- https://github.com/VFrontDe-Org/ESXi-Customizer-PS
 - https://oss.msft.vip/2023/02/10/custom-exsi-iso-with-Additional-driver
