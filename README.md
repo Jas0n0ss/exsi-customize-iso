@@ -2,7 +2,7 @@
 
 If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secrets`
 
-> check the hardware of which network driver you need
+## check the hardware of which network driver you need
 
 ```bash
 [jason@bo ~]$ lspci | grep -i Ethernet
@@ -10,18 +10,39 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 03:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 07)
 ```
 
-> Make Sure Exsi version which compatible with the driver
+## Find the suitable driver, Make Sure `Exsi version which compatible with the driver`
 
-Supported driver list:
+- Third-party Supported driver list:
 
-https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
+  https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
 
+- VMware Community Driver
+
+  https://flings.vmware.com/community-networking-driver-for-esxi
+
+## Customize your driver into ISO
+
+### Customize with third-party on-line driver and on-line Base image
 ```yaml
 - name:  Generate EXSi6.0 with Driver sata-xahci,net55-r8168
   shell: powershell
   run: |
     cd $WORK_DIR
     .\ESXi-Customizer-PS.ps1 -nsc -v60 -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\buildlog.txt
+```
+### Customize with downloaded offline driver and offline base image
+  #### Download base image
+  
+  ```powershell
+  Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
+  get-EsxImageProfile |  ft Name 
+  
+  ```
+  #### Download Driver to build work dir
+  
+  ```
+  ```
+```
 ```
 
 > Reference
