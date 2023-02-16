@@ -1,0 +1,2 @@
+- https://flings.vmware.com/flings?product=ESXi
+- https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
