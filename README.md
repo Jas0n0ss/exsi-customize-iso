@@ -10,29 +10,18 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 03:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 07)
 ```
 
-> How to use this action to build exsi on your own
+> Make Sure Exsi version which compatible with the driver
 
--  change the default driver
+Supported driver list:
 
-```yaml
-- name: Customize drivers
-  shell: powershell
-    run: |
-      ...
-      # change the driver name you need base on https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
-      $env:VIB='sata-xahci,net55-r8168'
-      $env:VIB
-```
-- change exsi version which compatible with the driver
+https://vibsdepot.v-front.de/wiki/index.php/List_of_currently_available_ESXi_packages
 
 ```yaml
-- name:  Generate EXSi ISO File
+- name:  Generate EXSi6.0 with Driver sata-xahci,net55-r8168
   shell: powershell
   run: |
-    ...
-    # change exsi version like -v60,-v65,-v67,-v70..., more Supportbility ./ESXi-Customizer-PS.ps1 -h
-    .\ESXi-Customizer-PS.ps1 -nsc -v60 -vft -load $env:VIB -ipname ${{ github.event.inputs.tag }}_${{ github.event.inputs.driver }} -outDir ..\ -log buildlog.txt
-    dir ..\
+    cd $WORK_DIR
+    .\ESXi-Customizer-PS.ps1 -nsc -v60 -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\buildlog.txt
 ```
 
 > Reference
