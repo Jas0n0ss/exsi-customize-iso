@@ -1,0 +1,71 @@
+name: EXSi_80_net-community
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release Tag'
+        required: true
+        default: 'EXSi_80_net-community'
+      driver:
+        description: 'Driver Name'
+        required: true
+        default: 'net-community'
+        
+jobs:
+  Build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7' 
+    
+      - name: Download ESXi-Customizer-PS Script
+        shell: powershell
+        run: |
+          $client = new-object System.Net.WebClient
+          $client.DownloadFile('https://github.com/VFrontDe/ESXi-Customizer-PS/archive/refs/tags/2.9.0.zip','ESXi-Customizer-PS.zip')
+          Expand-Archive -Path ESXi-Customizer-PS.zip -DestinationPath ./
+          cd ESXi-Customizer-PS-2.9.0
+          $env:WORK_DIR=$PWD
+          $env:WORK_DIR
+          echo "WORK_DIR=$env:WORK_DIR" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          
+      - name: Install VMware.PowerCLI and Python dependency
+        shell: powershell
+        run: |
+          Install-Module -Name VMware.PowerCLI -AcceptLicense -Force -SkipPublisherCheck
+          pip3.exe install six psutil lxml pyopenssl
+           
+      - name: Download exsi8.0 Base image and Community-Driver
+        shell: powershell
+        run: |
+          cd $env:WORK_DIR\
+          Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
+          Get-EsxImageProfile |  ft Name | findstr "ESXi-8.0.0"
+          Export-ESXImageProfile -ImageProfile "ESXi-8.0.0-20513097-standard" -ExportToBundle -filepath ESXi-8.0.0-20513097-standard.zip
+          
+          $client = new-object System.Net.WebClient
+          $client.DownloadFile('https://download3.vmware.com/software/vmw-tools/community-network-driver/Net-Community-Driver_1.2.7.0-1vmw.700.1.0.15843807_19480755.zip','Net-Community-Driver_1.2.7.0.zip')
+          Expand-Archive -Path Net-Community-Driver_1.2.7.0.zip -DestinationPath .
+          dir Net-Community-Driver_1.2.7.0-1vmw.700.1.0.15843807_19480755
+          
+      - name:  Generate EXSi-8.0 ISO File
+        shell: powershell
+        run: |
+          cd $env:WORK_DIR\ 
+          dir .
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0.0-20513097-standard.zip -nsc -v80 -pkgDir .\Net-Community-Driver_1.2.7.0-1vmw.700.1.0.15843807_19480755\vib20\net-community -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
+          dir ..\
+         
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          name: $env:ISO
+          tag_name: ${{ github.event.inputs.tag }}
+          files: |
+            build-log.txt
+            ${{ github.event.inputs.tag }}.iso
