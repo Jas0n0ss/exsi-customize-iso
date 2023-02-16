@@ -10,7 +10,9 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 03:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 07)
 ```
 
-## Find the suitable driver, Make Sure `Exsi version which compatible with the driver`
+## Find the suitable driver for your device
+
+> ⚠️ WarningMake Sure **Exsi version which compatible with the driver**
 
 - Third-party Supported driver list:
 
@@ -20,9 +22,12 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 
   https://flings.vmware.com/community-networking-driver-for-esxi
 
+  https://flings.vmware.com/community-networking-driver-for-esxi#requirements
+
 ## Customize your driver into ISO
 
 ### Customize with third-party on-line driver and on-line Base image
+
 ```yaml
 - name:  Generate EXSi6.0 with Driver sata-xahci,net55-r8168
   shell: powershell
@@ -30,19 +35,37 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
     cd $WORK_DIR
     .\ESXi-Customizer-PS.ps1 -nsc -v60 -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\buildlog.txt
 ```
+
 ### Customize with downloaded offline driver and offline base image
+
   #### Download base image
-  
+
   ```powershell
-  Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-  get-EsxImageProfile |  ft Name 
-  
+Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
+Get-EsxImageProfile |ft Name |findstr "ESXi-8.0.0"
+Export-ESXImageProfile -ImageProfile "ESXi-8.0.0-20513097-standard" -ExportToBundle -filepath ESXi-8.0.0-20513097-standard.zip
   ```
+
   #### Download Driver to build work dir
-  
+
+  ```powershell
+$client = new-object System.Net.WebClient
+$client.DownloadFile('https://download3.vmware.com/software/vmw-tools/community-network-driver/Net-Community-Driver_1.2.7.0-1vmw.700.1.0.15843807_19480755.zip','Net-Community-Driver_1.2.7.0.zip')
+Expand-Archive -Path Net-Community-Driver_1.2.7.0.zip -DestinationPath ./Net-Community-Driver_1.2.7.0
+PS > tree Net-Community-Driver_1.2.7.0
+...
+└── vib20
+    └── net-community
+        └── VMW_bootbank_net-community_1.2.7.0-1vmw.700.1.0.15843807.vib
   ```
-  ```
-```
+
+#### Use script to customize iso file
+
+```powershell
+# use online base image
+.\ESXi-Customizer-PS.ps1 -nsc -v80 -pkgDir ./vib20/net-community/ -iZip ESXi-8.0.0-20513097-standard.zip -ipname ESXi-8.0.0-net-community
+# use offline base image
+.\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0.0-20513097-standard.zip -nsc -v80 -pkgDir .\Net-Community-Driver_1.2.7.0-1vmw.700.1.0.15843807_19480755\vib20\net-community -ipname ESXi-8.0.0-net-community
 ```
 
 > Reference
