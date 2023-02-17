@@ -48,7 +48,8 @@ jobs:
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
           Get-EsxImageProfile |  ft Name | findstr "ESXi-6.7.0" | findstr "standard" > names.txt
           $NAME = (Get-Content .\names.txt -TotalCount 1)
-          Export-ESXImageProfile -ImageProfile $NAME -ExportToBundle -filepath ESXi-6.7.0-standard.zip
+          $NAME
+          Export-ESXImageProfile -ImageProfile "$NAME" -ExportToBundle -filepath ESXI-6.7.0-standard.zip
           
       - name:  Generate EXSi ISO File
         shell: powershell
