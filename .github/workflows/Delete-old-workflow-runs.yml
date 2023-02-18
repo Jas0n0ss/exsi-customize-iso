@@ -12,8 +12,7 @@ on:
         default: "5"
       delete_workflow_pattern:
         description: 'The name or filename of the workflow. if not set then it will target all workflows.'
-        required: true
-        default: "*"
+        required: false
         
       delete_workflow_by_state_pattern:
         description: 'Remove workflow by state: active, deleted, disabled_fork, disabled_inactivity, disabled_manually'
