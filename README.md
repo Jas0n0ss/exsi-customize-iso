@@ -12,7 +12,7 @@ If you want to use `GitHub Actions` yourself, your need add own `TOKEN` to `Secr
 
 ## Find the suitable driver for your device
 
-> ⚠️ WarningMake Sure **Exsi version which compatible with the driver**
+> ⚠️ Make Sure **Exsi version which compatible with the driver**
 
 - Third-party Supported driver list:
 
