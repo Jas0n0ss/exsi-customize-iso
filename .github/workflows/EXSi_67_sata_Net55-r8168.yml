@@ -48,14 +48,14 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-          Export-ESXImageProfile -ImageProfile "ESXi-6.0.0-20200204001-standard" -ExportToBundle -filepath ESXi-6.0.0-20200204001-standard.zip
+          Export-ESXImageProfile -ImageProfile "ESXi-6.7.0-20221004001-standard" -ExportToBundle -filepath ESXi-6.7.0-20221004001-standard.zip
           
       - name:  Generate EXSi ISO File
         shell: powershell
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.0.0-20200204001-standard.zip -nsc -log ..\build-log.txt -v60 -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.7.0-20221004001-standard.zip -nsc -log ..\build-log.txt -v60 -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\
           dir ..\
          
       - name: Create Release
