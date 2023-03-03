@@ -43,7 +43,7 @@ jobs:
           scripts\Install_PowerCli.ps1
           
            
-      - name: Download exsi6.0 Base image
+      - name: Download exsi6.7 Base image
         shell: powershell
         run: |
           cd $env:WORK_DIR\
