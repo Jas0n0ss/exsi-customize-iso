@@ -1,4 +1,4 @@
-name: EXSi_80_net-community
+name: exsi_80_I226V_R8168
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSi_80_net-community'
+        default: 'exsi_80_I226V_R8168'
       driver:
         description: 'Driver Name'
         required: true
@@ -63,7 +63,7 @@ jobs:
           dir .
           Get-ExecutionPolicy
           Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope LocalMachine -Force
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0.0-20513097-standard.zip -nsc -v80 -pkgDir .\driver\vib20\net-community -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0.0-20513097-standard.zip -nsc -v80 -pkgDir .\driver\vib20\net-community -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
           dir ..\
          
       - name: Create Release
