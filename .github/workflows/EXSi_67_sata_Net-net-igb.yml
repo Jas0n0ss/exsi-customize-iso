@@ -1,4 +1,4 @@
-name: EXSi_67_sata_Net-net-igb
+name: EXSi_67_sata_Net-net-igb+net-e1000e
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -6,11 +6,11 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSi_67_sata-net-igb'
+        default: 'EXSi_67_sata_Net-net-igb+net-e1000e'
       driver:
         description: 'Driver Name'
         required: true
-        default: 'net-igb'
+        default: 'net-igb+net-e1000e'
         
 jobs:
   Build:
@@ -57,7 +57,7 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.7.0-standard.zip -nsc -v67 -vft -load sata-xahci,net-igb -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.7.0-standard.zip -nsc -v67 -vft -load sata-xahci,net-igb,net-e1000e -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
           dir ..\
          
       - name: Create Release
