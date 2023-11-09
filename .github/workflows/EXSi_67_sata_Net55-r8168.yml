@@ -1,4 +1,4 @@
-name: EXSi_67_sata_Net55-r8168
+name: EXSi_67_sata_Net55-r8168_nvme_usb
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -6,11 +6,11 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSi_67_sata_Net55-r8168'
+        default: 'EXSi_67_sata_Net55-r8168_nvme_usb'
       driver:
         description: 'Driver Name'
         required: true
-        default: 'net55-r8168'
+        default: 'r8168_nvme_usb_sata'
         
 jobs:
   Build:
@@ -55,7 +55,7 @@ jobs:
         run: |
           cd $env:WORK_DIR\
           Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.7.0-20221004001-standard.zip -nsc -log ..\build-log.txt -v67 -vft -load sata-xahci,net55-r8168 -ipname ${{ github.event.inputs.tag }} -outDir ..\
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-6.7.0-20221004001-standard.zip -nsc -log ..\build-log.txt -v67 -vft -load sata-xahci,net55-r8168 -pkgDir .\drivers -ipname ${{ github.event.inputs.tag }} -outDir ..\
           dir ..\
          
       - name: Create Release
