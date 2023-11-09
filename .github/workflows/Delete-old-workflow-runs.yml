@@ -1,8 +1,22 @@
 name: Delete old workflow runs
 on:
-  #workflow_dispatch:
-  schedule:
-    - cron: '0 18 * * *'
+  workflow_dispatch:
+  #schedule:
+  #  - cron: '0 18 * * *'
+    inputs:
+      delete_run_by_conclusion_pattern:
+        description: 'Remove runs based on conclusion: action_required, cancelled, failure, skipped, success'
+        required: true
+        default: "failure"
+        type: choice
+        options:
+          - "ALL"
+          - "Unsuccessful: action_required,cancelled,failure,skipped"
+          - action_required
+          - cancelled
+          - failure
+          - skipped
+          - success
    
 jobs:
   del_runs:
@@ -15,3 +29,9 @@ jobs:
           repository: ${{ github.repository }}
           retain_days: 7
           keep_minimum_runs: 3
+          delete_run_by_conclusion_pattern: >-
+            ${{
+              startsWith(github.event.inputs.delete_run_by_conclusion_pattern, 'Unsuccessful:')
+              && 'action_required,cancelled,failure,skipped'
+              || github.event.inputs.delete_run_by_conclusion_pattern
+            }}
