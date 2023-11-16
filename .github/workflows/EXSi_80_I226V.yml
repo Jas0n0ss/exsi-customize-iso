@@ -1,4 +1,4 @@
-name: EXSi_80_I225V
+name: EXSi_80_I226V
 on:
   repository_dispatch:
   workflow_dispatch:
