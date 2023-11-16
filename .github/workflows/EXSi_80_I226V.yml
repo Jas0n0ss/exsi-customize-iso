@@ -6,7 +6,7 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSi_80_I225V'
+        default: 'EXSi_80_I226V'
       driver:
         description: 'Driver Name'
         required: true
