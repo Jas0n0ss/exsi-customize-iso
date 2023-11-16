@@ -1,4 +1,4 @@
-name: EXSi_80_net-community
+name: EXSi_80_I225V
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -6,11 +6,11 @@ on:
       tag:
         description: 'Release Tag'
         required: true
-        default: 'EXSi_80_net-community'
+        default: 'EXSi_80_I225V'
       driver:
         description: 'Driver Name'
         required: true
-        default: 'net-community'
+        default: 'cndi-igc'
         
 jobs:
   Build:
@@ -47,13 +47,16 @@ jobs:
           cd $env:WORK_DIR\
           Add-EsxSoftwareDepot https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
           Get-EsxImageProfile |  ft Name | findstr "ESXi-8.0.0"
-          Export-ESXImageProfile -ImageProfile "ESXi-8.0U1c-22088125-standard" -ExportToBundle -filepath ESXi-8.0U1c-22088125-standard.zip
-
-          $Driver_Url = 'https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/esx/vmw/vib20/cndi-igc/VMW_bootbank_cndi-igc_1.2.10.0-1vmw.801.0.0.21495797.vib'
+          Export-ESXImageProfile -ImageProfile "ESXi-8.0c-21493926-standard" -ExportToBundle -filepath ESXi-8.0c-21493926-standard.zip
+          
+          #$Driver_Url = 'https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/esx/vmw/vib20/cndi-igc/VMW_bootbank_cndi-igc_1.2.10.0-1vmw.801.0.0.21495797.vib'
           #$Driver_Url = 'https://download3.vmware.com/software/vmw-tools/community-network-driver/Net-Community-Driver_1.2.7.0-1vmw.700.1.0.15843807_19480755.zip'
           #$DestFile = '.\Net-Community-Driver.zip'
+          
+          $Driver_Url = 'https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/esx/vmw/vib20/cndi-igc/VMW_bootbank_cndi-igc_1.2.9.0-1vmw.800.1.0.20513097.vib'
           $DestFile = 'cndi-igc_1.2.10.0-1vmw.801.0.0.21495797.vib'
           Invoke-RestMethod -Uri $Driver_Url -OutFile $DestFile
+          
           #Expand-Archive -Path .\$DestFile -DestinationPath .\driver
           #dir .\driver\vib20\net-community
           dir .\
@@ -66,9 +69,9 @@ jobs:
           dir .
           Get-ExecutionPolicy
           Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope LocalMachine -Force
-          #.\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0U1c-22088125-standard.zip -nsc -v80 -pkgDir .\driver\vib20\net-community -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
+          #.\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0c-21493926-standard.zip -nsc -v80 -pkgDir .\driver\vib20\net-community -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
           dir ..\
-          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0U1c-22088125-standard.zip -nsc -v80 -pkgDir .\ -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
+          .\ESXi-Customizer-PS.ps1 -izip .\ESXi-8.0c-21493926-standard.zip -nsc -v80 -pkgDir .\ -ipname ${{ github.event.inputs.tag }} -outDir ..\ -log ..\build-log.txt
           dir ..\
          
       - name: Create Release
